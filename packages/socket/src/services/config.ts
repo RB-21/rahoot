@@ -1,4 +1,4 @@
-import { QuizzWithId } from "@rahoot/common/types/game"
+import { Quizz, QuizzWithId } from "@rahoot/common/types/game"
 import fs from "fs"
 import { resolve } from "path"
 
@@ -124,6 +124,34 @@ class Config {
 
       return []
     }
+  }
+
+  static saveQuizz(id: string | undefined, quizzData: Quizz): QuizzWithId {
+    this.init()
+    const rawId = (id && id.trim()) || quizzData.subject || `quizz-${Date.now()}`
+    const safeId =
+      rawId
+        .toLowerCase()
+        .replace(/[^a-z0-9_-]/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "") || `quizz-${Date.now()}`
+
+    const filePath = getPath(`quizz/${safeId}.json`)
+    fs.writeFileSync(filePath, JSON.stringify(quizzData, null, 2), "utf-8")
+
+    return {
+      id: safeId,
+      ...quizzData,
+    }
+  }
+
+  static deleteQuizz(id: string): boolean {
+    const filePath = getPath(`quizz/${id}.json`)
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath)
+      return true
+    }
+    return false
   }
 }
 

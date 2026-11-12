@@ -66,6 +66,38 @@ io.on("connection", (socket) => {
     }
   })
 
+  socket.on("manager:saveQuizz", ({ id, quizz }) => {
+    try {
+      if (!quizz || !quizz.subject || !Array.isArray(quizz.questions)) {
+        socket.emit("manager:errorMessage", "Invalid quiz data")
+
+        return
+      }
+
+      const saved = Config.saveQuizz(id, quizz)
+      socket.emit("manager:quizzSaved", saved)
+      socket.emit("manager:quizzList", Config.quizz())
+    } catch (error) {
+      console.error("Failed to save quiz:", error)
+      socket.emit("manager:errorMessage", "Failed to save quiz")
+    }
+  })
+
+  socket.on("manager:deleteQuizz", (quizzId) => {
+    try {
+      const deleted = Config.deleteQuizz(quizzId)
+      if (deleted) {
+        socket.emit("manager:quizzDeleted", quizzId)
+        socket.emit("manager:quizzList", Config.quizz())
+      } else {
+        socket.emit("manager:errorMessage", "Quiz file not found")
+      }
+    } catch (error) {
+      console.error("Failed to delete quiz:", error)
+      socket.emit("manager:errorMessage", "Failed to delete quiz")
+    }
+  })
+
   socket.on("game:create", (quizzId) => {
     const quizzList = Config.quizz()
     const quizz = quizzList.find((q) => q.id === quizzId)

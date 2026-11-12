@@ -105,19 +105,25 @@ const Podium = ({ data: { subject, top } }: Props) => {
         </h2>
 
         <div
-          style={{ gridTemplateColumns: `repeat(${top.length}, 1fr)` }}
-          className={`grid w-full max-w-200 flex-1 items-end justify-center justify-self-end overflow-x-visible overflow-y-hidden`}
+          style={{ gridTemplateColumns: `repeat(${Math.max(top.length, 1)}, 1fr)` }}
+          className={`grid w-full max-w-200 flex-1 items-end justify-center justify-self-end overflow-x-visible overflow-y-hidden px-2`}
         >
+          {top.length === 0 && (
+            <div className="col-span-full py-12 text-center text-2xl font-bold text-white">
+              Permainan Selesai!
+            </div>
+          )}
+
           {top[1] && (
             <div
               className={clsx(
-                "z-20 flex h-[50%] w-full translate-y-full flex-col items-center justify-center gap-3 opacity-0 transition-all",
+                "z-20 flex h-[50%] w-full translate-y-full flex-col items-center justify-center gap-2 md:gap-3 opacity-0 transition-all",
                 { "translate-y-0! opacity-100": apparition >= 2 },
               )}
             >
               <p
                 className={clsx(
-                  "overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white drop-shadow-lg md:text-4xl",
+                  "overflow-visible text-center text-lg md:text-3xl font-bold truncate max-w-[90%] text-white drop-shadow-lg",
                   {
                     "anim-balanced": apparition >= 4,
                   },
@@ -125,50 +131,52 @@ const Podium = ({ data: { subject, top } }: Props) => {
               >
                 {top[1].username}
               </p>
-              <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-md pt-6 text-center shadow-2xl">
-                <p className="flex aspect-square h-14 items-center justify-center rounded-full border-4 border-zinc-400 bg-zinc-500 text-3xl font-bold text-white drop-shadow-lg">
+              <div className="bg-primary flex h-full w-full flex-col items-center gap-2 md:gap-4 rounded-t-md pt-4 md:pt-6 text-center shadow-2xl">
+                <p className="flex aspect-square h-10 w-10 md:h-14 md:w-14 items-center justify-center rounded-full border-4 border-zinc-400 bg-zinc-500 text-xl md:text-3xl font-bold text-white drop-shadow-lg">
                   <span className="drop-shadow-md">2</span>
                 </p>
-                <p className="text-2xl font-bold text-white drop-shadow-lg">
+                <p className="text-lg md:text-2xl font-bold text-white drop-shadow-lg">
                   {top[1].points}
                 </p>
               </div>
             </div>
           )}
 
-          <div
-            className={clsx(
-              "z-30 flex h-[60%] w-full translate-y-full flex-col items-center gap-3 opacity-0 transition-all",
-              {
-                "translate-y-0! opacity-100": apparition >= 3,
-              },
-              {
-                "md:min-w-64": top.length < 2,
-              },
-            )}
-          >
-            <p
+          {top[0] && (
+            <div
               className={clsx(
-                "overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white opacity-0 drop-shadow-lg md:text-4xl",
-                { "anim-balanced opacity-100": apparition >= 4 },
+                "z-30 flex h-[65%] w-full translate-y-full flex-col items-center gap-2 md:gap-3 opacity-0 transition-all",
+                {
+                  "translate-y-0! opacity-100": apparition >= 3,
+                },
+                {
+                  "min-w-48 md:min-w-64": top.length < 2,
+                },
               )}
             >
-              {top[0].username}
-            </p>
-            <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-md pt-6 text-center shadow-2xl">
-              <p className="flex aspect-square h-14 items-center justify-center rounded-full border-4 border-amber-400 bg-amber-300 text-3xl font-bold text-white drop-shadow-lg">
-                <span className="drop-shadow-md">1</span>
+              <p
+                className={clsx(
+                  "overflow-visible text-center text-xl md:text-4xl font-extrabold truncate max-w-[95%] text-white opacity-0 drop-shadow-lg",
+                  { "anim-balanced opacity-100": apparition >= 4 },
+                )}
+              >
+                👑 {top[0].username}
               </p>
-              <p className="text-2xl font-bold text-white drop-shadow-lg">
-                {top[0].points}
-              </p>
+              <div className="bg-primary flex h-full w-full flex-col items-center gap-2 md:gap-4 rounded-t-md pt-4 md:pt-6 text-center shadow-2xl ring-2 ring-amber-300">
+                <p className="flex aspect-square h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-full border-4 border-amber-300 bg-amber-400 text-2xl md:text-4xl font-black text-amber-950 drop-shadow-lg">
+                  <span className="drop-shadow-md">1</span>
+                </p>
+                <p className="text-xl md:text-2xl font-black text-white drop-shadow-lg">
+                  {top[0].points}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           {top[2] && (
             <div
               className={clsx(
-                "z-10 flex h-[40%] w-full translate-y-full flex-col items-center gap-3 opacity-0 transition-all",
+                "z-10 flex h-[40%] w-full translate-y-full flex-col items-center gap-2 md:gap-3 opacity-0 transition-all",
                 {
                   "translate-y-0! opacity-100": apparition >= 1,
                 },
@@ -176,7 +184,7 @@ const Podium = ({ data: { subject, top } }: Props) => {
             >
               <p
                 className={clsx(
-                  "overflow-visible text-center text-2xl font-bold whitespace-nowrap text-white drop-shadow-lg md:text-4xl",
+                  "overflow-visible text-center text-base md:text-2xl font-bold truncate max-w-[90%] text-white drop-shadow-lg",
                   {
                     "anim-balanced": apparition >= 4,
                   },
@@ -184,12 +192,12 @@ const Podium = ({ data: { subject, top } }: Props) => {
               >
                 {top[2].username}
               </p>
-              <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-md pt-6 text-center shadow-2xl">
-                <p className="flex aspect-square h-14 items-center justify-center rounded-full border-4 border-amber-800 bg-amber-700 text-3xl font-bold text-white drop-shadow-lg">
+              <div className="bg-primary flex h-full w-full flex-col items-center gap-2 md:gap-4 rounded-t-md pt-4 md:pt-6 text-center shadow-2xl">
+                <p className="flex aspect-square h-9 w-9 md:h-12 md:w-12 items-center justify-center rounded-full border-4 border-amber-800 bg-amber-700 text-lg md:text-2xl font-bold text-white drop-shadow-lg">
                   <span className="drop-shadow-md">3</span>
                 </p>
 
-                <p className="text-2xl font-bold text-white drop-shadow-lg">
+                <p className="text-lg md:text-xl font-bold text-white drop-shadow-lg">
                   {top[2].points}
                 </p>
               </div>

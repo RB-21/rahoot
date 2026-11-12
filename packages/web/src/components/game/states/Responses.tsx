@@ -62,39 +62,72 @@ const Responses = ({
         </h2>
 
         <div
-          className={`mt-8 grid h-40 w-full max-w-3xl gap-4 px-2`}
+          className={`mt-8 grid h-44 w-full max-w-3xl gap-4 px-2 items-end`}
           style={{ gridTemplateColumns: `repeat(${answers.length}, 1fr)` }}
         >
-          {answers.map((_, key) => (
-            <div
-              key={key}
-              className={clsx(
-                "flex flex-col justify-end self-end overflow-hidden rounded-md",
-                ANSWERS_COLORS[key],
-              )}
-              style={{ height: percentages[key] }}
-            >
-              <span className="w-full bg-black/10 text-center text-lg font-bold text-white drop-shadow-md">
-                {responses[key] || 0}
-              </span>
-            </div>
-          ))}
+          {answers.map((_, key) => {
+            const isCorrect = correct === key
+
+            return (
+              <div
+                key={key}
+                className={clsx(
+                  "relative flex flex-col justify-end self-end overflow-hidden rounded-lg transition-all duration-500",
+                  ANSWERS_COLORS[key],
+                  isCorrect
+                    ? "ring-4 ring-white shadow-[0_0_25px_rgba(34,197,94,0.95)] z-10 scale-[1.02]"
+                    : "opacity-35 grayscale-[40%]",
+                )}
+                style={{ height: percentages[key] || "28px" }}
+              >
+                {isCorrect && (
+                  <div className="absolute top-1 left-0 right-0 flex justify-center">
+                    <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-black text-white shadow-md border border-white">
+                      ✓
+                    </span>
+                  </div>
+                )}
+                <span className="w-full bg-black/30 text-center text-lg font-black text-white drop-shadow-md py-1">
+                  {responses[key] || 0}
+                </span>
+              </div>
+            )
+          })}
         </div>
       </div>
 
       <div>
-        <div className="mx-auto mb-4 grid w-full max-w-7xl grid-cols-2 gap-1 rounded-full px-2 text-lg font-bold text-white md:text-xl">
-          {answers.map((answer, key) => (
-            <AnswerButton
-              key={key}
-              className={clsx(ANSWERS_COLORS[key], {
-                "opacity-65": responses && correct !== key,
-              })}
-              icon={ANSWERS_ICONS[key]}
-            >
-              {answer}
-            </AnswerButton>
-          ))}
+        <div className="mx-auto mb-4 grid w-full max-w-7xl grid-cols-2 gap-3 px-2 text-lg font-bold text-white md:text-xl">
+          {answers.map((answer, key) => {
+            const isCorrect = correct === key
+
+            return (
+              <AnswerButton
+                key={key}
+                className={clsx(
+                  ANSWERS_COLORS[key],
+                  "relative transition-all duration-300",
+                  isCorrect
+                    ? "opacity-100 scale-[1.02] ring-4 ring-white shadow-[0_0_25px_rgba(34,197,94,0.95)] z-20"
+                    : "opacity-25 grayscale-[60%] scale-[0.98]",
+                )}
+                icon={ANSWERS_ICONS[key]}
+              >
+                <div className="flex w-full items-center justify-between gap-2">
+                  <span className="truncate">{answer}</span>
+                  {isCorrect ? (
+                    <span className="shrink-0 flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1 text-sm font-black text-white shadow-lg border-2 border-white animate-pulse">
+                      ✓ JAWABAN BENAR
+                    </span>
+                  ) : (
+                    <span className="shrink-0 flex h-7 w-7 items-center justify-center rounded-full bg-black/40 text-xs font-bold text-white/80">
+                      ✕
+                    </span>
+                  )}
+                </div>
+              </AnswerButton>
+            )
+          })}
         </div>
       </div>
     </div>

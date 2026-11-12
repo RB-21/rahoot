@@ -11,8 +11,8 @@ const montserrat = Montserrat({
 })
 
 export const metadata: Metadata = {
-  title: "Rahoot !",
-  icons: "/icon.svg",
+  title: "PTI Yahoot!",
+  icons: "/favicon.png",
 }
 
 const RootLayout = ({ children }: PropsWithChildren) => (

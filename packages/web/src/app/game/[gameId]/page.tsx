@@ -3,6 +3,7 @@
 import { STATUS } from "@rahoot/common/types/game/status"
 import GameWrapper from "@rahoot/web/components/game/GameWrapper"
 import Answers from "@rahoot/web/components/game/states/Answers"
+import Podium from "@rahoot/web/components/game/states/Podium"
 import Prepared from "@rahoot/web/components/game/states/Prepared"
 import Question from "@rahoot/web/components/game/states/Question"
 import Result from "@rahoot/web/components/game/states/Result"
@@ -85,6 +86,11 @@ const Game = () => {
 
     case STATUS.SELECT_ANSWER:
       component = <Answers data={status.data} />
+
+      break
+
+    case STATUS.FINISHED:
+      component = <Podium data={status.data} />
 
       break
   }

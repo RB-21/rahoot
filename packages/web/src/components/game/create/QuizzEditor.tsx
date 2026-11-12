@@ -478,10 +478,10 @@ const QuizzEditor = ({ initialData, onSave, onCancel }: Props) => {
                   <div
                     key={ansIdx}
                     className={clsx(
-                      "relative flex flex-col gap-2 rounded-xl border-2 p-3 transition shadow-sm bg-white",
+                      "relative flex flex-col gap-2 rounded-xl border-2 p-3 transition shadow-sm",
                       isCorrect
-                        ? "border-emerald-500 ring-2 ring-emerald-500 bg-emerald-50/20"
-                        : "border-gray-200 hover:border-gray-300",
+                        ? "border-emerald-600 ring-4 ring-emerald-500/40 bg-emerald-50 shadow-md"
+                        : "border-gray-200 bg-white hover:border-gray-300",
                     )}
                   >
                     <div className="flex items-center justify-between gap-2">
@@ -504,13 +504,13 @@ const QuizzEditor = ({ initialData, onSave, onCancel }: Props) => {
                           type="button"
                           onClick={() => handleSetSolution(ansIdx)}
                           className={clsx(
-                            "flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold transition",
+                            "flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-black transition border",
                             isCorrect
-                              ? "bg-emerald-600 text-white shadow-sm"
-                              : "bg-gray-100 text-gray-600 hover:bg-gray-200",
+                              ? "bg-emerald-600 text-white shadow-md border-emerald-700 ring-2 ring-emerald-300"
+                              : "bg-gray-100 text-gray-600 hover:bg-gray-200 border-gray-300",
                           )}
                         >
-                          <span>{isCorrect ? "✓ BENAR" : "Set Benar"}</span>
+                          <span>{isCorrect ? "✓ KUNCI BENAR" : "Set Benar"}</span>
                         </button>
 
                         {currentQ.answers.length > 2 && (

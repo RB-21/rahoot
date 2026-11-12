@@ -9,6 +9,7 @@ WORKDIR /app
 
 # Copy pnpm configuration files
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY packages/common/package.json ./packages/common/
 COPY packages/web/package.json ./packages/web/
 COPY packages/socket/package.json ./packages/socket/
 
@@ -63,7 +64,7 @@ COPY --from=builder /app/packages/socket/dist ./packages/socket/dist
 COPY --from=builder /app/config ./config
 
 # Expose the web and socket ports
-EXPOSE 3000 5505
+EXPOSE 3000 3001
 
 # Environment variables
 ENV NODE_ENV=production

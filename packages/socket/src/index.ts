@@ -9,7 +9,10 @@ import { Server as ServerIO } from "socket.io"
 
 const io: Server = new ServerIO({
   cors: {
-    origin: [env.WEB_ORIGIN],
+    origin:
+      env.WEB_ORIGIN === "*"
+        ? "*"
+        : env.WEB_ORIGIN.split(",").map((o) => o.trim()),
   },
 })
 Config.init()
